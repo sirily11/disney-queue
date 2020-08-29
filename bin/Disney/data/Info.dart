@@ -1,11 +1,27 @@
+import '../utils/utils.dart';
+import 'FacilitiesData.dart';
+
 class WaitingInfo {
   WaitingInfo({
     this.id,
     this.waitTime,
+    this.facilitiesData,
   });
 
-  String? id;
-  WaitTime? waitTime;
+  String id;
+  WaitTime waitTime;
+  FacilitiesData facilitiesData;
+
+  WaitingInfo copyWith({
+    String id,
+    WaitTime waitTime,
+    FacilitiesData facilitiesData,
+  }) =>
+      WaitingInfo(
+        id: id,
+        facilitiesData: facilitiesData,
+        waitTime: waitTime,
+      );
 
   factory WaitingInfo.fromJson(Map<String, dynamic> json) => WaitingInfo(
         id: json['id'],
@@ -18,15 +34,7 @@ class WaitingInfo {
       };
 
   String get cleanId {
-    if (id != null) {
-      var regex = RegExp(r'^([^;]+)');
-      var matches = regex.firstMatch(id!);
-      if (matches != null) {
-        return matches.group(1)!;
-      }
-    }
-
-    return '';
+    return getCleanID(id);
   }
 }
 
@@ -37,9 +45,9 @@ class WaitTime {
     this.singleRider,
   });
 
-  FastPass? fastPass;
-  String? status;
-  bool? singleRider;
+  FastPass fastPass;
+  String status;
+  bool singleRider;
 
   factory WaitTime.fromJson(Map<String, dynamic> json) => WaitTime(
         fastPass: FastPass.fromJson(json["fastPass"]),
@@ -59,7 +67,7 @@ class FastPass {
     this.available,
   });
 
-  bool? available;
+  bool available;
 
   factory FastPass.fromJson(Map<String, dynamic> json) => FastPass(
         available: json['available'],

@@ -1,5 +1,6 @@
 import 'package:test/test.dart';
-import '../bin/Disney/data/Info.dart';
+import '../Disney/data/Info.dart';
+
 
 void main() {
   group('Test waiting', () {

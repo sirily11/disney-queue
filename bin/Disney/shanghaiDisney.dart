@@ -1,11 +1,14 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'data/Info.dart';
 import 'disney_base.dart';
 
 class ShangHaiDisneyLand extends BaseDisney {
-  ShangHaiDisneyLand()
+  ShangHaiDisneyLand({Dio networkProvider})
       : super(
+          networkProvider: networkProvider ?? Dio(),
           baseURL:
               'https://apim.shanghaidisneyresort.com/explorer-service/public',
           authURL:
@@ -18,7 +21,7 @@ class ShangHaiDisneyLand extends BaseDisney {
         );
 
   @override
-  Future<String?> getAuthorizationToken() async {
+  Future<String> getAuthorizationToken() async {
     try {
       var contentType = 'application/x-www-form-urlencoded';
       var resp = await Dio().request(
@@ -31,23 +34,22 @@ class ShangHaiDisneyLand extends BaseDisney {
       return resp.data['access_token'];
     } catch (err) {
       print('Cannot get auth token');
+      return '';
     }
   }
 
   @override
-  Future<List<WaitingInfo>?> fetchWaitingTime() async {
+  Future<List<WaitingInfo>> fetchWaitingTime() async {
     try {
       var token = await getAuthorizationToken();
       var path = '$baseURL/wait-times/shdr;entityType=destination';
-      var data = {'region': resortRegion};
+      var data = {'region': resortId};
       // If token is null, then return null
       if (token == null) {
         return null;
       }
       var headers = {
         'Authorization': 'Bearer $token',
-        'X-Conversation-Id': 'WDW-MDX-ANDROID-4.12',
-        'X-Correlation-ID': DateTime.now().millisecondsSinceEpoch,
       };
 
       var resp = await Dio().request(
@@ -62,6 +64,15 @@ class ShangHaiDisneyLand extends BaseDisney {
       return entries;
     } catch (err) {
       print('Cannot fetch waiting time');
+      return [];
     }
+  }
+
+  @override
+  Future<Map<String, dynamic>> fetchFacilitiesData() async {
+    var disneyDataFile = File('bin/Disney/data/shanghaiData.json');
+    var disneyStringData = await disneyDataFile.readAsString();
+    var disneyData = JsonDecoder().convert(disneyStringData);
+    return disneyData;
   }
 }

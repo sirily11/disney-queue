@@ -9,9 +9,7 @@
       "program": "bin/main.dart",
       "request": "launch",
       "type": "dart",
-      "vmAdditionalArgs": [
-        "--enable-experiment=super-mixins,no-slow-checks,non-nullable"
-      ]
+      "vmAdditionalArgs": []
     }
   ]
 }
