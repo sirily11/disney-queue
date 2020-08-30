@@ -34,39 +34,39 @@ class FacilitiesData {
   }
 
   factory FacilitiesData.fromJson(Map<String, dynamic> json) => FacilitiesData(
-        id: json["id"],
-        type: json["type"],
-        cacheId: json["cacheId"],
-        name: json["name"],
+        id: json['id'],
+        type: json['type'],
+        cacheId: json['cacheId'],
+        name: json['name'],
         ancestors: List<Ancestor>.from(
-            json["ancestors"].map((x) => Ancestor.fromJson(x))),
+            json['ancestors'].map((x) => Ancestor.fromJson(x))),
         relatedLocations: List<RelatedLocation>.from(
-            json["relatedLocations"].map((x) => RelatedLocation.fromJson(x))),
-        medias: List<Media>.from(json["medias"].map((x) => Media.fromJson(x))),
+            json['relatedLocations'].map((x) => RelatedLocation.fromJson(x))),
+        medias: List<Media>.from(json['medias'].map((x) => Media.fromJson(x))),
         descriptions: List<Description>.from(
-            json["descriptions"].map((x) => Description.fromJson(x))),
-        subType: json["subType"],
-        fastPass: json["fastPass"],
-        webLink: json["webLink"],
-        duration: json["duration"],
+            json['descriptions'].map((x) => Description.fromJson(x))),
+        subType: json['subType'],
+        fastPass: json['fastPass'],
+        webLink: json['webLink'],
+        duration: json['duration'],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "type": type,
-        "cacheId": cacheId,
-        "name": name,
-        "ancestors":
+        'id': id,
+        'type': type,
+        'cacheId': cacheId,
+        'name': name,
+        'ancestors':
             List<dynamic>.from(ancestors?.map((x) => x.toJson()) ?? []),
-        "relatedLocations":
+        'relatedLocations':
             List<dynamic>.from(relatedLocations?.map((x) => x.toJson()) ?? []),
-        "medias": List<dynamic>.from(medias?.map((x) => x.toJson()) ?? []),
-        "descriptions":
+        'medias': List<dynamic>.from(medias?.map((x) => x.toJson()) ?? []),
+        'descriptions':
             List<dynamic>.from(descriptions?.map((x) => x.toJson()) ?? []),
-        "subType": subType,
-        "fastPass": fastPass,
-        "webLink": webLink,
-        "duration": duration,
+        'subType': subType,
+        'fastPass': fastPass,
+        'webLink': webLink,
+        'duration': duration,
       };
 }
 
@@ -80,13 +80,13 @@ class Ancestor {
   String type;
 
   factory Ancestor.fromJson(Map<String, dynamic> json) => Ancestor(
-        id: json["id"],
-        type: json["type"],
+        id: json['id'],
+        type: json['type'],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "type": type,
+        'id': id,
+        'type': type,
       };
 }
 
@@ -100,13 +100,13 @@ class Description {
   String text;
 
   factory Description.fromJson(Map<String, dynamic> json) => Description(
-        type: json["type"],
-        text: json["text"],
+        type: json['type'],
+        text: json['text'],
       );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "text": text,
+        'type': type,
+        'text': text,
       };
 }
 
@@ -120,13 +120,13 @@ class Media {
   String url;
 
   factory Media.fromJson(Map<String, dynamic> json) => Media(
-        type: json["type"],
-        url: json["url"],
+        type: json['type'],
+        url: json['url'],
       );
 
   Map<String, dynamic> toJson() => {
-        "type": type,
-        "url": url,
+        'type': type,
+        'url': url,
       };
 }
 
@@ -147,22 +147,22 @@ class RelatedLocation {
 
   factory RelatedLocation.fromJson(Map<String, dynamic> json) =>
       RelatedLocation(
-        id: json["id"],
-        type: json["type"],
-        name: json["name"],
+        id: json['id'],
+        type: json['type'],
+        name: json['name'],
         coordinates: List<Coordinate>.from(
-            json["coordinates"]?.map((x) => Coordinate.fromJson(x))),
+            json['coordinates']?.map((x) => Coordinate.fromJson(x))),
         ancestors: List<Ancestor>.from(
-            json["ancestors"]?.map((x) => Ancestor.fromJson(x))),
+            json['ancestors']?.map((x) => Ancestor.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "type": type,
-        "name": name,
-        "coordinates":
+        'id': id,
+        'type': type,
+        'name': name,
+        'coordinates':
             List<dynamic>.from(coordinates?.map((x) => x.toJson()) ?? []),
-        "ancestors":
+        'ancestors':
             List<dynamic>.from(ancestors?.map((x) => x.toJson()) ?? []),
       };
 }

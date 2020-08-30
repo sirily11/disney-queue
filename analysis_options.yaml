@@ -12,5 +12,5 @@ include: package:pedantic/analysis_options.yaml
 analyzer:
   # enable-experiment:
   #   - non-nullable
-#   exclude:
-#     - path/to/excluded/files/**
+  exclude:
+    - bin/tests/test_response.dart

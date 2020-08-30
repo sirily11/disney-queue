@@ -18,16 +18,18 @@ class ShangHaiDisneyLand extends BaseDisney {
           resortId: 'cn',
           resortRegion: 'shdr',
           parkId: 'desShanghaiDisneyland',
+          longitude: 121.6580,
+          latitude: 31.1433,
         );
 
   @override
   Future<String> getAuthorizationToken() async {
     try {
       var contentType = 'application/x-www-form-urlencoded';
-      var resp = await Dio().request(
+      var resp = await networkProvider.post(
         authURL,
         data: authData,
-        options: Options(contentType: contentType, method: 'POST', headers: {
+        options: Options(contentType: contentType, headers: {
           'User-Agent': userAgent,
         }),
       );
@@ -52,10 +54,10 @@ class ShangHaiDisneyLand extends BaseDisney {
         'Authorization': 'Bearer $token',
       };
 
-      var resp = await Dio().request(
+      var resp = await networkProvider.get(
         path,
         queryParameters: data,
-        options: Options(headers: headers, method: 'get'),
+        options: Options(headers: headers),
       );
 
       var entries = (resp.data['entries'] as List)
