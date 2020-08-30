@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'data/Info.dart';
 import 'disney_base.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/standalone.dart' as tz;
 
 class ShangHaiDisneyLand extends BaseDisney {
   ShangHaiDisneyLand({Dio networkProvider})
@@ -60,8 +61,11 @@ class ShangHaiDisneyLand extends BaseDisney {
         options: Options(headers: headers),
       );
 
+      var shanghai =  tz.getLocation('Asia/Shanghai');
       var entries = (resp.data['entries'] as List)
-          .map((e) => WaitingInfo.fromJson(e))
+          .map(
+            (e) => WaitingInfo.fromJson(e, shanghai),
+          )
           .toList();
       return entries;
     } catch (err) {

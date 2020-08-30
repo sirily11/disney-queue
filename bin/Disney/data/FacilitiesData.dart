@@ -1,6 +1,7 @@
 import '../utils/utils.dart';
+import 'Info.dart';
 
-class FacilitiesData {
+class FacilitiesData with CsvCodable {
   FacilitiesData({
     this.id,
     this.type,
@@ -28,6 +29,12 @@ class FacilitiesData {
   String fastPass;
   String webLink;
   String duration;
+
+  @override
+  List<RowResult> get variables => [
+        RowResult(value: name, variableName: 'name'),
+        RowResult(value: type, variableName: 'ride type'),
+      ];
 
   String get cleanId {
     return getCleanID(id);

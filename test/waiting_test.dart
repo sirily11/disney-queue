@@ -6,6 +6,8 @@ import '../bin//Disney/data/weatherData.dart';
 import '../bin//Disney/data/FacilitiesData.dart';
 import '../bin/Disney/shanghaiDisney.dart';
 import 'test_response.dart';
+import 'package:timezone/data/latest.dart' as tz;
+import 'package:timezone/standalone.dart' as tz;
 
 class MockDio extends Mock implements Dio {}
 
@@ -13,7 +15,8 @@ void main() {
   group('Test waiting', () {
     Dio dio = MockDio();
 
-    setUpAll(() {
+    setUpAll(() async {
+      await tz.initializeTimeZones();
       when(
         dio.get(
           'https://apim.shanghaidisneyresort.com/explorer-service/public/wait-times/shdr;entityType=destination',
@@ -43,11 +46,10 @@ void main() {
           queryParameters: anyNamed('queryParameters'),
         ),
       ).thenAnswer(
-            (realInvocation) async => Response(
+        (realInvocation) async => Response(
           data: weatherResponse,
         ),
       );
-
     });
 
     test('Test 1', () {
@@ -76,9 +78,11 @@ void main() {
     });
 
     test('Test to json', () async {
+      var shanghai = await tz.getLocation('Asia/Shanghai');
+      var now = tz.TZDateTime.now(shanghai);
       var waitingTime = WaitingInfo(
         id: '1',
-        dateTime: DateTime.now(),
+        dateTime: now,
         weatherData: WeatherData.fromJson(weatherResponse),
       );
 

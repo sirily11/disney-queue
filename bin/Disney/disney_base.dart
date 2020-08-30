@@ -38,8 +38,11 @@ abstract class BaseDisney {
   /// get waiting time
   /// Will also fetch its name and weather data
   Future<List<WaitingInfo>> getWaitingTime() async {
+    print('Fetching facilities data');
     var facilitiesData = await getFacilitiesData();
+    print('Fetching waiting time');
     var waitingTime = await fetchWaitingTime();
+    print('Fetching weather data');
     var currentWeather = await fetchWeatherData();
 
     // ignore: omit_local_variable_types

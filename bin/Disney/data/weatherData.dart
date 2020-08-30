@@ -40,7 +40,8 @@ class WeatherData with CsvCodable {
 
   @override
   List<RowResult> get variables => [
-        RowResult(value: weather.isNotEmpty ? weather.first : null),
+        if (weather != null)
+          RowResult(value: weather.isNotEmpty ? weather.first : null),
         RowResult(value: main),
         RowResult(value: wind),
         RowResult(value: clouds),
@@ -117,12 +118,17 @@ class WeatherData with CsvCodable {
       };
 }
 
-class Clouds {
+class Clouds with CsvCodable {
   Clouds({
     @required this.all,
   });
 
   final int all;
+
+  @override
+  List<RowResult> get variables => [
+        RowResult(value: all, variableName: 'cloud'),
+      ];
 
   Clouds copyWith({
     int all,
@@ -140,7 +146,7 @@ class Clouds {
       };
 }
 
-class Coord {
+class Coord  {
   Coord({
     @required this.lon,
     @required this.lat,
@@ -169,7 +175,7 @@ class Coord {
       };
 }
 
-class Main {
+class Main with CsvCodable {
   Main({
     @required this.temp,
     @required this.feelsLike,
@@ -185,6 +191,15 @@ class Main {
   final double tempMax;
   final int pressure;
   final int humidity;
+
+  @override
+  List<RowResult> get variables => [
+        RowResult(value: tempCelsius, variableName: 'temperature'),
+        RowResult(value: tempMaxCelsius, variableName: 'max temperature'),
+        RowResult(value: tempMaxCelsius, variableName: 'min temperature'),
+        RowResult(value: pressure, variableName: 'pressure'),
+        RowResult(value: humidity, variableName: 'humidity'),
+      ];
 
   Main copyWith({
     double temp,
@@ -275,7 +290,7 @@ class Sys {
       };
 }
 
-class Weather {
+class Weather with CsvCodable{
   Weather({
     @required this.id,
     @required this.main,
@@ -287,6 +302,12 @@ class Weather {
   final String main;
   final String description;
   final String icon;
+
+  @override
+  List<RowResult> get variables => [
+        RowResult(value: main, variableName: 'weather'),
+        RowResult(value: description, variableName: 'weather description')
+      ];
 
   Weather copyWith({
     int id,
@@ -316,7 +337,7 @@ class Weather {
       };
 }
 
-class Wind {
+class Wind with CsvCodable{
   Wind({
     @required this.speed,
     @required this.deg,
@@ -324,6 +345,12 @@ class Wind {
 
   final int speed;
   final int deg;
+
+  @override
+  List<RowResult> get variables => [
+        RowResult(value: deg, variableName: 'wind degree'),
+        RowResult(value: speed, variableName: 'wind speed'),
+      ];
 
   Wind copyWith({
     int speed,
