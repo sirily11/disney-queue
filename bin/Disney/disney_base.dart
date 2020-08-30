@@ -3,6 +3,8 @@ import 'package:meta/meta.dart';
 import 'data/FacilitiesData.dart';
 import 'data/Info.dart';
 import 'data/weatherData.dart';
+import 'database/csv_provider.dart';
+import 'database/database_provider.dart';
 import 'utils/utils.dart';
 
 abstract class BaseDisney {
@@ -98,5 +100,17 @@ abstract class BaseDisney {
       print('Cannot fetch weather data');
       rethrow;
     }
+  }
+
+  Future<void> writeToDB()async{
+    var databaseProvider = DatabaseProvider();
+    var data = await getWaitingTime();
+    await databaseProvider.writeMultiple(data);
+  }
+
+  Future<void> writeToCSV()async{
+    var csvProvider = CsvProvider();
+    var data = await getWaitingTime();
+    await csvProvider.writeMultiple(data);
   }
 }

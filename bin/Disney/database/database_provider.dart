@@ -10,7 +10,7 @@ class DatabaseProvider extends DataProvider<DatabaseFactory, WaitingInfo> {
     DatabaseFactory databaseFactory,
   }) : super(
           dataClient: databaseFactory ?? databaseFactoryIo,
-          name: 'disney.db',
+          name: 'data/disney.db',
         );
 
   @override

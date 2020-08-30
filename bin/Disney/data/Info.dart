@@ -1,10 +1,36 @@
+import 'dart:mirrors';
+
 import 'package:meta/meta.dart';
 
 import '../utils/utils.dart';
 import 'FacilitiesData.dart';
 import 'weatherData.dart';
 
-class WaitingInfo {
+class RowResult {
+  dynamic value;
+  String variableName;
+
+  RowResult({@required this.value, this.variableName});
+}
+
+abstract class CsvCodable {
+  List<RowResult> get variables;
+
+  List<RowResult> toCsvRow() {
+    var row = <RowResult>[];
+    for (var v in variables) {
+      var value = v.value;
+      if (value is CsvCodable) {
+        row = [...row, ...value.toCsvRow()];
+      } else {
+        row.add(v);
+      }
+    }
+    return row;
+  }
+}
+
+class WaitingInfo with CsvCodable {
   WaitingInfo({
     @required this.id,
     this.waitTime,
@@ -20,7 +46,14 @@ class WaitingInfo {
   final WeatherData weatherData;
 
   @override
-  String toString(){
+  List<RowResult> get variables => [
+        RowResult(value: facilitiesData),
+        RowResult(value: dateTime.toIso8601String(), variableName: 'time'),
+        RowResult(value: weatherData),
+      ];
+
+  @override
+  String toString() {
     return '[waitingInfo: ${facilitiesData.name} - ${waitTime.status}]';
   }
 
@@ -42,7 +75,9 @@ class WaitingInfo {
   factory WaitingInfo.fromJson(Map<String, dynamic> json) => WaitingInfo(
         id: json['id'],
         waitTime: WaitTime.fromJson(json['waitTime']),
-        dateTime: json['dateTime'] != null ? DateTime.parse(json['dateTime']) : DateTime.now(),
+        dateTime: json['dateTime'] != null
+            ? DateTime.parse(json['dateTime'])
+            : DateTime.now(),
         facilitiesData: json['facilitiesData'],
         weatherData: json['weatherData'] != null
             ? WeatherData.fromJson(json['weatherData'])
@@ -62,7 +97,7 @@ class WaitingInfo {
   }
 }
 
-class WaitTime {
+class WaitTime with CsvCodable {
   WaitTime({
     this.fastPass,
     this.status,
@@ -72,6 +107,13 @@ class WaitTime {
   FastPass fastPass;
   String status;
   bool singleRider;
+
+  @override
+  List<RowResult> get variables => [
+    RowResult(value: fastPass),
+    RowResult(value: status, variableName: 'status'),
+    RowResult(value: singleRider, variableName: 'singleRider')
+  ];
 
   factory WaitTime.fromJson(Map<String, dynamic> json) => WaitTime(
         fastPass: FastPass.fromJson(json['fastPass']),
@@ -84,14 +126,21 @@ class WaitTime {
         'status': status,
         'singleRider': singleRider,
       };
+
+
 }
 
-class FastPass {
+class FastPass with CsvCodable {
   FastPass({
     this.available,
   });
 
   bool available;
+
+  @override
+  List<RowResult> get variables => [
+    RowResult(value: available, variableName: 'fastpass-avaliable'),
+  ];
 
   factory FastPass.fromJson(Map<String, dynamic> json) => FastPass(
         available: json['available'],
