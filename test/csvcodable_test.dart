@@ -1,7 +1,5 @@
 import 'package:test/test.dart';
-import '../bin/Disney/data/Info.dart';
-import '../bin/Disney/data/FacilitiesData.dart';
-import '../bin/Disney/data/weatherData.dart';
+import 'package:disney_queue/disney_queue.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/standalone.dart' as tz;
 

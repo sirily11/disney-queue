@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import '../bin/Disney/shanghaiDisney.dart';
+import 'package:disney_queue/disney_queue.dart';
 
 void main() {
   group('Test get facilities data', () {

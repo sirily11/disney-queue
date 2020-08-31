@@ -76,7 +76,8 @@ class ShangHaiDisneyLand extends BaseDisney {
 
   @override
   Future<Map<String, dynamic>> fetchFacilitiesData() async {
-    var disneyDataFile = File('bin/Disney/data/shanghaiData.json');
+    print(Directory.current);
+    var disneyDataFile = File('lib/disney_queue/data/shanghaiData.json');
     var disneyStringData = await disneyDataFile.readAsString();
     var disneyData = JsonDecoder().convert(disneyStringData);
     return disneyData;
