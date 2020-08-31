@@ -26,5 +26,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           allow_override: true
+          tag: master
           files: |
             data/disney.csv
