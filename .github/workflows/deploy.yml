@@ -13,7 +13,8 @@ jobs:
       image: google/dart:latest
     steps:
       - uses: actions/checkout@v2
-      - run: apt install wget
+      - run: apt-get update
+      - run: apt -y install wget
       - name: Install dependencies
         run: pub get
       - name: Fetch current files
