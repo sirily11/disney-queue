@@ -61,7 +61,7 @@ class ShangHaiDisneyLand extends BaseDisney {
         options: Options(headers: headers),
       );
 
-      var shanghai =  tz.getLocation('Asia/Shanghai');
+      var shanghai = tz.getLocation('Asia/Shanghai');
       var entries = (resp.data['entries'] as List)
           .map(
             (e) => WaitingInfo.fromJson(e, shanghai),
@@ -76,8 +76,12 @@ class ShangHaiDisneyLand extends BaseDisney {
 
   @override
   Future<Map<String, dynamic>> fetchFacilitiesData() async {
-    print(Directory.current);
     var disneyDataFile = File('lib/disney_queue/data/shanghaiData.json');
+    // If user use native code
+    // then use json data in main folder
+    if (!await disneyDataFile.exists()) {
+      disneyDataFile = File('shanghaiData.json');
+    }
     var disneyStringData = await disneyDataFile.readAsString();
     var disneyData = JsonDecoder().convert(disneyStringData);
     return disneyData;
