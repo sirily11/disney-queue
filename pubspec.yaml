@@ -4,10 +4,10 @@ description: A simple command-line application.
 # homepage: https://www.example.com
 
 environment:
-  sdk: ">=2.10.0-56.0.dev <3.0.0"
+  sdk: ">=2.9.2 <3.0.0"
 
 dependencies:
-  dio:
+  dio: ^3.0.10
   meta: ^1.2.2
   sembast: ^2.4.7+6
   csv: ^4.0.3
