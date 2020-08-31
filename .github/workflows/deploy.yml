@@ -21,8 +21,10 @@ jobs:
         run: wget https://github.com/sirily11/disney-queue/releases/latest/download/disney.csv -P data
       - name: Run application
         run: dart bin/main.dart
-      - name: Update Release
-        uses: johnwbyrd/update-release@v1.0.0
+      - name: Github Release create, update, and upload assets
+        uses: meeDamian/github-release@v2.0.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: ./data/disney.csv
+          allow_override: true
+          files: |
+            data/disney.csv
