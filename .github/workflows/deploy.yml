@@ -23,9 +23,9 @@ jobs:
         run: dart bin/main.dart
       - name: Github Release create, update, and upload assets
         uses: meeDamian/github-release@v2.0.3
+        if: startsWith(github.ref, 'refs/tags/')
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           allow_override: true
-          tag: master
           files: |
             data/disney.csv
