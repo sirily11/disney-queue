@@ -1,4 +1,3 @@
-A simple command-line application.
+Auto fetch disney queue time in dart!
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+Data will be included in github release
