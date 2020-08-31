@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:meta/meta.dart';
 
 import '../data/Info.dart';
 import 'provider.dart';
@@ -15,16 +16,16 @@ class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
   List<List<dynamic>> rows = [];
   bool willWriteHeader = false;
 
-  CsvProvider({ListToCsvConverter listToCsvConverter})
+  CsvProvider({ListToCsvConverter listToCsvConverter, @required String name})
       : super(
-          name: './data/disney.csv',
+          name: name,
           dataClient: listToCsvConverter ?? ListToCsvConverter(),
         );
 
   @override
   Future<void> onInit() async {
     try {
-      var file = File(name);
+      var file = File('./data/$name.csv');
       var content = await file.readAsString();
       var rows = CsvToListConverter().convert(content);
       this.rows = rows;
@@ -55,7 +56,10 @@ class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
       if (willWriteHeader) {
         rows = [
           if (data.isNotEmpty)
-            data.first.toCsvRow().map((e) => e.variableName.capitalize()).toList(),
+            data.first
+                .toCsvRow()
+                .map((e) => e.variableName.capitalize())
+                .toList(),
           ...rows
         ];
       }
@@ -70,7 +74,7 @@ class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
   @override
   Future<void> dispose() async {
     var str = dataClient.convert(rows);
-    var file = File(name);
+    var file = File('./data/$name.csv');
     await file.writeAsString(str);
   }
 }

@@ -18,12 +18,12 @@ jobs:
       - name: Install dependencies
         run: pub get
       - name: Fetch current files
-        run: wget https://github.com/sirily11/disney-queue/releases/latest/download/disney.csv -P data
+        run: wget https://github.com/sirily11/disney-queue/releases/latest/download/disney_shanghai.csv -P data
       - name: Run application
         run: dart bin/main.dart
       - name: Update Release
         uses: johnwbyrd/update-release@v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: ./data/disney.csv
+          files: ./data/disney_shanghai.csv
           prerelease: false

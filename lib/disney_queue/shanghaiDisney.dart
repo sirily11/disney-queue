@@ -21,6 +21,7 @@ class ShangHaiDisneyLand extends BaseDisney {
           parkId: 'desShanghaiDisneyland',
           longitude: 121.6580,
           latitude: 31.1433,
+          writeFileName: 'disney_shanghai',
         );
 
   @override
