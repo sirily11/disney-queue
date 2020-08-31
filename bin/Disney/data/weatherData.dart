@@ -218,11 +218,11 @@ class Main with CsvCodable {
         humidity: humidity ?? this.humidity,
       );
 
-  double get tempCelsius => temp - 273.15;
+  String get tempCelsius => (temp - 273.15).toStringAsFixed(2);
 
-  double get tempMaxCelsius => tempMax - 273.15;
+  String get tempMaxCelsius => (tempMax - 273.15).toStringAsFixed(2);
 
-  double get tempMinCelsius => tempMin - 273.15;
+  String get tempMinCelsius => (tempMin - 273.15).toStringAsFixed(2);
 
   factory Main.fromJson(Map<String, dynamic> json) => Main(
         temp: json['temp'].toDouble(),

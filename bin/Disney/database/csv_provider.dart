@@ -5,8 +5,15 @@ import 'package:csv/csv.dart';
 import '../data/Info.dart';
 import 'provider.dart';
 
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${substring(1)}";
+  }
+}
+
 class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
   List<List<dynamic>> rows = [];
+  bool willWriteHeader = false;
 
   CsvProvider({ListToCsvConverter listToCsvConverter})
       : super(
@@ -16,13 +23,15 @@ class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
 
   @override
   Future<void> onInit() async {
-    try{
+    try {
       var file = File(name);
       var content = await file.readAsString();
       var rows = CsvToListConverter().convert(content);
       this.rows = rows;
-    } catch(err){
-      print('$err');
+      willWriteHeader = rows.isEmpty;
+    } on FileSystemException catch (err) {
+      print('Create file');
+      willWriteHeader = true;
       return;
     }
   }
@@ -42,12 +51,11 @@ class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
   @override
   Future<bool> writeMultiple(List<WaitingInfo> data) async {
     try {
-      var willWriteHeader = rows.isEmpty;
       await super.writeMultiple(data);
       if (willWriteHeader) {
         rows = [
           if (data.isNotEmpty)
-            data.first.toCsvRow().map((e) => e.variableName).toList(),
+            data.first.toCsvRow().map((e) => e.variableName.capitalize()).toList(),
           ...rows
         ];
       }
@@ -57,16 +65,12 @@ class CsvProvider extends DataProvider<ListToCsvConverter, WaitingInfo> {
       print(err);
       return false;
     }
-
-
   }
 
   @override
-  Future<void> dispose() async{
+  Future<void> dispose() async {
     var str = dataClient.convert(rows);
     var file = File(name);
     await file.writeAsString(str);
-
   }
-
 }

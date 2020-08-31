@@ -49,6 +49,7 @@ class WaitingInfo with CsvCodable {
   List<RowResult> get variables => [
         RowResult(value: facilitiesData),
         RowResult(value: dateTime.toIso8601String(), variableName: 'time'),
+        RowResult(value: waitTime),
         RowResult(value: weatherData),
       ];
 
@@ -72,7 +73,8 @@ class WaitingInfo with CsvCodable {
         weatherData: weatherData ?? this.weatherData,
       );
 
-  factory WaitingInfo.fromJson(Map<String, dynamic> json, tz.Location location)  {
+  factory WaitingInfo.fromJson(
+      Map<String, dynamic> json, tz.Location location) {
     return WaitingInfo(
       id: json['id'],
       waitTime: WaitTime.fromJson(json['waitTime']),
@@ -104,29 +106,33 @@ class WaitTime with CsvCodable {
     this.fastPass,
     this.status,
     this.singleRider,
+    this.postedWaitMinutes,
   });
 
   FastPass fastPass;
   String status;
   bool singleRider;
+  num postedWaitMinutes;
 
   @override
   List<RowResult> get variables => [
         RowResult(value: fastPass),
         RowResult(value: status, variableName: 'status'),
-        RowResult(value: singleRider, variableName: 'singleRider')
+        RowResult(value: postedWaitMinutes, variableName: 'wait time')
       ];
 
   factory WaitTime.fromJson(Map<String, dynamic> json) => WaitTime(
         fastPass: FastPass.fromJson(json['fastPass']),
         status: json['status'],
         singleRider: json['singleRider'],
+        postedWaitMinutes: json['postedWaitMinutes'],
       );
 
   Map<String, dynamic> toJson() => {
         'fastPass': fastPass?.toJson(),
         'status': status,
         'singleRider': singleRider,
+        'postedWaitMinutes': postedWaitMinutes,
       };
 }
 

@@ -10,9 +10,14 @@ import 'package:timezone/standalone.dart' as tz;
 
 void main(List<String> arguments) async {
   tz.initializeTimeZones();
-  var shanghai = await tz.getLocation('Asia/Shanghai');
+  var shanghai = tz.getLocation('Asia/Shanghai');
   var now = tz.TZDateTime.now(shanghai);
-  print(now);
-  // var shdl = ShangHaiDisneyLand();
-  // await shdl.writeToCSV();
+  if(now.hour > 7 && now.hour < 22){
+    var shdl = ShangHaiDisneyLand();
+    // await shdl.writeToCSV();
+    var token = await shdl.getAuthorizationToken();
+    print(token);
+  } else{
+    print('Disney is not open');
+  }
 }

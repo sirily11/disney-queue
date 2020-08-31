@@ -31,7 +31,7 @@ class C with CsvCodable {
 
 void main() {
   group('Test csv codable', () {
-    setUpAll(()async{
+    setUpAll(() async {
       tz.initializeTimeZones();
     });
 
@@ -42,38 +42,33 @@ void main() {
       expect(result.map((e) => e.value).toList(), [10, '20', 40, null]);
     });
 
-    test('Convert waiting time', () async{
+    test('Convert waiting time', () async {
       var shanghai = await tz.getLocation('Asia/Shanghai');
       var now = tz.TZDateTime.now(shanghai);
       var waitingInfo = WaitingInfo(
         id: '1',
         dateTime: now,
-        facilitiesData: FacilitiesData(
-          name: 'Ride',
-          type: 'Entertainment;'
+        waitTime: WaitTime(
+          fastPass: FastPass(available: true),
+          status: 'Operating',
+          postedWaitMinutes: 30,
         ),
+        facilitiesData: FacilitiesData(name: 'Ride', type: 'Entertainment;'),
         weatherData: WeatherData(
-          visibility: 30,
-          main: Main(
-            temp: 300,
-            tempMax: 300,
-            tempMin: 300,
-            humidity: 40,
-            pressure: 700,
-            feelsLike: 300
-          ),
-          clouds: Clouds(
-            all: 60
-          ),
-          wind: Wind(
-            deg: 20,
-            speed: 20
-          )
-        ),
+            visibility: 30,
+            main: Main(
+                temp: 300,
+                tempMax: 300,
+                tempMin: 300,
+                humidity: 40,
+                pressure: 700,
+                feelsLike: 300),
+            clouds: Clouds(all: 60),
+            wind: Wind(deg: 20, speed: 20)),
       );
 
       var result = waitingInfo.toCsvRow();
-      expect(result.length, 12);
+      expect(result.length, 15);
     });
   });
 }
