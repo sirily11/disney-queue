@@ -146,7 +146,7 @@ class Clouds with CsvCodable {
       };
 }
 
-class Coord  {
+class Coord {
   Coord({
     @required this.lon,
     @required this.lat,
@@ -290,7 +290,7 @@ class Sys {
       };
 }
 
-class Weather with CsvCodable{
+class Weather with CsvCodable {
   Weather({
     @required this.id,
     @required this.main,
@@ -337,14 +337,14 @@ class Weather with CsvCodable{
       };
 }
 
-class Wind with CsvCodable{
+class Wind with CsvCodable {
   Wind({
     @required this.speed,
     @required this.deg,
   });
 
-  final int speed;
-  final int deg;
+  final double speed;
+  final double deg;
 
   @override
   List<RowResult> get variables => [
@@ -353,8 +353,8 @@ class Wind with CsvCodable{
       ];
 
   Wind copyWith({
-    int speed,
-    int deg,
+    double speed,
+    double deg,
   }) =>
       Wind(
         speed: speed ?? this.speed,
@@ -362,8 +362,8 @@ class Wind with CsvCodable{
       );
 
   factory Wind.fromJson(Map<String, dynamic> json) => Wind(
-        speed: json['speed'],
-        deg: json['deg'],
+        speed: (json['speed'] as num).toDouble(),
+        deg: (json['deg'] as num).toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
