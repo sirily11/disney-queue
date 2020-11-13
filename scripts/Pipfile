@@ -9,6 +9,7 @@ verify_ssl = true
 pandas = "*"
 psycopg2-binary = "*"
 numpy = "*"
+tqdm = "*"
 
 [requires]
 python_version = "3.8"
