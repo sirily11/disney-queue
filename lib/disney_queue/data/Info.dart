@@ -72,13 +72,13 @@ class WaitingInfo with CsvCodable {
       );
 
   factory WaitingInfo.fromJson(
-      Map<String, dynamic> json, tz.Location location) {
+      Map<String, dynamic> json, tz.TZDateTime dateTime, tz.Location location) {
     return WaitingInfo(
       id: json['id'],
       waitTime: WaitTime.fromJson(json['waitTime']),
       dateTime: json['dateTime'] != null
           ? tz.TZDateTime.parse(location, json['dateTime'])
-          : tz.TZDateTime.now(location),
+          : dateTime,
       facilitiesData: json['facilitiesData'],
       weatherData: json['weatherData'] != null
           ? WeatherData.fromJson(json['weatherData'])
@@ -143,7 +143,7 @@ class FastPass with CsvCodable {
 
   @override
   List<RowResult> get variables => [
-        RowResult(value: available, variableName: 'fastpass-avaliable'),
+        RowResult(value: available, variableName: 'fastpass-available'),
       ];
 
   factory FastPass.fromJson(Map<String, dynamic> json) => FastPass(

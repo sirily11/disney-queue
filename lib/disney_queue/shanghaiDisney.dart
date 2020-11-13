@@ -7,6 +7,9 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/standalone.dart' as tz;
 
 class ShangHaiDisneyLand extends BaseDisney {
+  final shanghai = tz.getLocation('Asia/Shanghai');
+  tz.TZDateTime dateTime;
+
   ShangHaiDisneyLand({Dio networkProvider})
       : super(
           networkProvider: networkProvider ?? Dio(),
@@ -22,7 +25,9 @@ class ShangHaiDisneyLand extends BaseDisney {
           longitude: 121.6580,
           latitude: 31.1433,
           writeFileName: 'disney_shanghai',
-        );
+        ) {
+    dateTime = tz.TZDateTime.now(shanghai);
+  }
 
   @override
   Future<String> getAuthorizationToken() async {
@@ -62,10 +67,9 @@ class ShangHaiDisneyLand extends BaseDisney {
         options: Options(headers: headers),
       );
 
-      var shanghai = tz.getLocation('Asia/Shanghai');
       var entries = (resp.data['entries'] as List)
           .map(
-            (e) => WaitingInfo.fromJson(e, shanghai),
+            (e) => WaitingInfo.fromJson(e, dateTime, shanghai),
           )
           .toList();
       return entries;

@@ -1,3 +1,4 @@
+import '../../disney_queue.dart';
 import '../utils/utils.dart';
 import 'Info.dart';
 
@@ -32,6 +33,7 @@ class FacilitiesData with CsvCodable {
 
   @override
   List<RowResult> get variables => [
+        RowResult(value: id, variableName: 'id'),
         RowResult(value: name, variableName: 'name'),
         RowResult(value: type, variableName: 'ride type'),
       ];

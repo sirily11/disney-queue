@@ -9,7 +9,8 @@ build/
 # Directory created by dartdoc
 doc/api/
 *.db
-*.csv
+data/disney_shanghai.csv
+*.env
 
 disney_fetcher
 disney_fetcher_macos
