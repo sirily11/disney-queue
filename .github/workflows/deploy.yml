@@ -22,6 +22,7 @@ jobs:
         run: pub get
       - name: Run application
         run: dart bin/main.dart
+      - run: cp -r data scripts/
       - name: Install pipenv
         run: curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
       - name: Install python dependencies
