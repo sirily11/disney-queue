@@ -13,6 +13,7 @@ jobs:
       image: google/dart:latest
     steps:
       - uses: actions/checkout@v2
+      - run: apt-get update
       - name: Install python
         run: apt-get install software-properties-common
       - run: add-apt-repository ppa:deadsnakes/ppa
