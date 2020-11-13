@@ -11,10 +11,6 @@ username = os.getenv('username')
 database_name = 'dataset'
 data_path = '../data/disney_shanghai.csv'
 
-if not os.path.exists(data_path):
-    print("Disney is not open")
-else:
-    print("Start")
 
 def preprocess_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -33,47 +29,52 @@ def preprocess_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     return weather_data, wait_data
 
 
-weather_data, wait_data = preprocess_data()
-# print(weather_data.columns)
+if not os.path.exists(data_path):
+    print("Disney is not open")
+else:
+    print("Start")
 
-conn = psycopg2.connect(user=username,
-                        password=password,
-                        host=endpoint,
-                        port='5432',
-                        database=database_name)
+    weather_data, wait_data = preprocess_data()
+    # print(weather_data.columns)
 
-cursor = conn.cursor()
+    conn = psycopg2.connect(user=username,
+                            password=password,
+                            host=endpoint,
+                            port='5432',
+                            database=database_name)
 
-sql = """insert into dataset.disney_shanghai.weather
-        (time, weather_description, max_temperature, min_temperature, pressure, wind_degree, wind_speed, cloud, visibility, weather, temperature, humidity) values
-          (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id;"""
+    cursor = conn.cursor()
 
-weather_list = weather_data.values.tolist()[0]
-time = weather_list[0]
-weather = weather_list[1]
-weather_description = weather_list[2]
-temperature = weather_list[3]
-max_temperature = weather_list[4]
-min_temp = weather_list[5]
-pressure = weather_list[6]
-humidity = weather_list[7]
-wind_deg = weather_list[8]
-wind_spe = weather_list[9]
-cloud = weather_list[10]
-vis = weather_list[11]
+    sql = """insert into dataset.disney_shanghai.weather
+            (time, weather_description, max_temperature, min_temperature, pressure, wind_degree, wind_speed, cloud, visibility, weather, temperature, humidity) values
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id;"""
 
-cursor.execute(sql,
-               [time, weather_description, max_temperature, min_temp, pressure, wind_deg, wind_spe, cloud, vis, weather,
-                temperature, humidity])
+    weather_list = weather_data.values.tolist()[0]
+    time = weather_list[0]
+    weather = weather_list[1]
+    weather_description = weather_list[2]
+    temperature = weather_list[3]
+    max_temperature = weather_list[4]
+    min_temp = weather_list[5]
+    pressure = weather_list[6]
+    humidity = weather_list[7]
+    wind_deg = weather_list[8]
+    wind_spe = weather_list[9]
+    cloud = weather_list[10]
+    vis = weather_list[11]
 
-weather_id = cursor.fetchone()[0]
-for d in tqdm(wait_data.values.tolist()):
-    sql = "insert into dataset.disney_shanghai.wait_time(facility, weather, wait_time, status, fastpass) VALUES (%s, %s, %s, %s, %s)"
-    facility = d[0]
-    wait_time = d[1]
-    status = d[2]
-    fast = d[3]
-    cursor.execute(sql, [facility, weather_id, wait_time, status, fast])
+    cursor.execute(sql,
+                   [time, weather_description, max_temperature, min_temp, pressure, wind_deg, wind_spe, cloud, vis, weather,
+                    temperature, humidity])
 
-conn.commit()
-print("finished")
+    weather_id = cursor.fetchone()[0]
+    for d in tqdm(wait_data.values.tolist()):
+        sql = "insert into dataset.disney_shanghai.wait_time(facility, weather, wait_time, status, fastpass) VALUES (%s, %s, %s, %s, %s)"
+        facility = d[0]
+        wait_time = d[1]
+        status = d[2]
+        fast = d[3]
+        cursor.execute(sql, [facility, weather_id, wait_time, status, fast])
+
+    conn.commit()
+    print("finished")
