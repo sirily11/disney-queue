@@ -13,14 +13,15 @@ jobs:
       image: google/dart:latest
     steps:
       - uses: actions/checkout@v2
+      - name: Install python
+        run: apt-get install software-properties-common
+      - run: add-apt-repository ppa:deadsnakes/ppa
       - run: apt-get update
-      - run: apt -y install wget
+      - run: apt -y install python3.8
       - name: Install dependencies
         run: pub get
       - name: Run application
         run: dart bin/main.dart
-      - name: Install python
-        run: apt -y install python3.8
       - name: Install pipenv
         run: curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python
       - name: Install python dependencies
