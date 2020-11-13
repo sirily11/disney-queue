@@ -11,6 +11,10 @@ username = os.getenv('username')
 database_name = 'dataset'
 data_path = '../data/disney_shanghai.csv'
 
+if not os.path.exists(data_path):
+    print("Disney is not open")
+else:
+    print("Start")
 
 def preprocess_data() -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
