@@ -66,7 +66,7 @@ void main() {
       );
 
       var result = waitingInfo.toCsvRow();
-      expect(result.length, 15);
+      expect(result.length, 16);
     });
   });
 }
