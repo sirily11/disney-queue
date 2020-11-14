@@ -45,7 +45,7 @@ else:
 
     cursor = conn.cursor()
 
-    sql = """insert into dataset.disney_shanghai.weather
+    sql = """insert into weather
             (time, weather_description, max_temperature, min_temperature, pressure, wind_degree, wind_speed, cloud, visibility, weather, temperature, humidity) values
             (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id;"""
 
@@ -64,12 +64,13 @@ else:
     vis = weather_list[11]
 
     cursor.execute(sql,
-                   [time, weather_description, max_temperature, min_temp, pressure, wind_deg, wind_spe, cloud, vis, weather,
+                   [time, weather_description, max_temperature, min_temp, pressure, wind_deg, wind_spe, cloud, vis,
+                    weather,
                     temperature, humidity])
 
     weather_id = cursor.fetchone()[0]
     for d in tqdm(wait_data.values.tolist()):
-        sql = "insert into dataset.disney_shanghai.wait_time(facility, weather, wait_time, status, fastpass) VALUES (%s, %s, %s, %s, %s)"
+        sql = "insert into wait_time(facility, weather, wait_time, status, fastpass) VALUES (%s, %s, %s, %s, %s)"
         facility = d[0]
         wait_time = d[1]
         status = d[2]
