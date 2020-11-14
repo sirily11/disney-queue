@@ -70,7 +70,7 @@ else:
 
     weather_id = cursor.fetchone()[0]
     for d in tqdm(wait_data.values.tolist()):
-        sql = "insert into wait_time(facility, weather, wait_time, status, fastpass) VALUES (%s, %s, %s, %s, %s)"
+        sql = "insert into wait_time(facility_id, weather_id, wait_time, status, fastpass) VALUES (%s, %s, %s, %s, %s)"
         facility = d[0]
         wait_time = d[1]
         status = d[2]
