@@ -46,8 +46,8 @@ else:
     cursor = conn.cursor()
 
     sql = """insert into dataset_app_disneyweather
-            (time, weather_description, max_temperature, min_temperature, pressure, wind_degree, wind_speed, cloud, visibility, weather, temperature, humidity) values
-            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id;"""
+            (time, weather_description, max_temperature, min_temperature, pressure, wind_degree, wind_speed, cloud, visibility, weather, temperature, humidity, location) values
+            (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) returning id;"""
 
     weather_list = weather_data.values.tolist()[0]
     time = weather_list[0]
@@ -66,7 +66,7 @@ else:
     cursor.execute(sql,
                    [time, weather_description, max_temperature, min_temp, pressure, wind_deg, wind_spe, cloud, vis,
                     weather,
-                    temperature, humidity])
+                    temperature, humidity,  "ShangHai Disneyland"])
 
     weather_id = cursor.fetchone()[0]
     for d in tqdm(wait_data.values.tolist()):
