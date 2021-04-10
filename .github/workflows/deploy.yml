@@ -22,6 +22,8 @@ jobs:
         run: pub get
       - name: Run application
         run: dart bin/main.dart
+      - name: Install pip
+        run: curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
       - name: Install pipenv
         run: pip3 install pipenv
       - name: Install python dependencies
