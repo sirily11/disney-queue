@@ -18,14 +18,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
+      - uses: dschep/install-pipenv-action@v1
+      - name: Pipenv install
+        run: |
+          pipenv install
+        working-directory: './scripts'
       - name: Install dependencies
         run: pub get
       - name: Run application
         run: dart bin/main.dart
-      - run: pip install pipenv
-      - name: Install python dependencies
-        run: pipenv install
-        working-directory: "./scripts"
       - name: Upload to database
         run: pipenv run python upload.py
         working-directory: './scripts'
