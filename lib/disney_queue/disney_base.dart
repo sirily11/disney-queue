@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
-import 'package:disney_queue/disney_queue/database/api_provider.dart';
 import 'package:meta/meta.dart';
 import 'data/FacilitiesData.dart';
 import 'data/Info.dart';
 import 'data/weatherData.dart';
+import 'database/api_provider.dart';
 import 'database/csv_provider.dart';
 import 'database/database_provider.dart';
 import 'utils/utils.dart';
