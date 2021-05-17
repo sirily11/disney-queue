@@ -8,7 +8,7 @@ void main(List<String> arguments) async {
   var now = tz.TZDateTime.now(shanghai);
   if (now.hour > 7 && now.hour < 22) {
     var shdl = ShangHaiDisneyLand();
-    await shdl.writeToCSV();
+    await shdl.writeToAPI();
   } else {
     print('Disney is not open');
   }

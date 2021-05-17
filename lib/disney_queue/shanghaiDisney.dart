@@ -25,6 +25,7 @@ class ShangHaiDisneyLand extends BaseDisney {
           longitude: 121.6580,
           latitude: 31.1433,
           writeFileName: 'disney_shanghai',
+          location: 'ShangHai Disneyland',
         ) {
     dateTime = tz.TZDateTime.now(shanghai);
   }

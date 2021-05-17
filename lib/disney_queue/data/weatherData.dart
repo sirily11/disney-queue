@@ -116,6 +116,22 @@ class WeatherData with CsvCodable {
         'name': name,
         'cod': cod,
       };
+
+  Map<String, dynamic> toAPIJson(String location) => {
+        'coord': coord.toJson(),
+        'weather': weather.first?.main,
+        'weather_description': weather.first?.description,
+        'max_temperature': main.tempMaxCelsiusInt,
+        'min_temperature': main.tempMinCelsiusInt,
+        'pressure': main.pressure,
+        'wind_degree': wind.deg,
+        'wind_speed': wind.speed,
+        'cloud': clouds.all,
+        'visibility': visibility,
+        'temperature': main.tempCelsiusInt,
+        'humidity': main.humidity,
+        'location': location
+      };
 }
 
 class Clouds with CsvCodable {
@@ -223,6 +239,12 @@ class Main with CsvCodable {
   String get tempMaxCelsius => (tempMax - 273.15).toStringAsFixed(2);
 
   String get tempMinCelsius => (tempMin - 273.15).toStringAsFixed(2);
+
+  int get tempCelsiusInt => (temp - 273.15).round();
+
+  int get tempMaxCelsiusInt => (tempMax - 273.15).round();
+
+  int get tempMinCelsiusInt => (tempMin - 273.15).round();
 
   factory Main.fromJson(Map<String, dynamic> json) => Main(
         temp: json['temp'].toDouble(),

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:disney_queue/disney_queue/database/api_provider.dart';
 import 'package:meta/meta.dart';
 import 'data/FacilitiesData.dart';
 import 'data/Info.dart';
@@ -9,6 +10,7 @@ import 'utils/utils.dart';
 
 abstract class BaseDisney {
   final weatherAPI = 'https://api.openweathermap.org/data/2.5/weather';
+  final String location;
   final Dio networkProvider;
   final double longitude, latitude;
   final String baseURL;
@@ -32,6 +34,7 @@ abstract class BaseDisney {
     @required this.latitude,
     @required this.longitude,
     @required this.writeFileName,
+    @required this.location,
   });
 
   /// get auth token
@@ -107,15 +110,22 @@ abstract class BaseDisney {
     }
   }
 
-  Future<void> writeToDB()async{
+  Future<void> writeToDB() async {
     var databaseProvider = DatabaseProvider();
     var data = await getWaitingTime();
     await databaseProvider.writeMultiple(data);
   }
 
-  Future<void> writeToCSV()async{
+  Future<void> writeToCSV() async {
     var csvProvider = CsvProvider(name: writeFileName);
     var data = await getWaitingTime();
     await csvProvider.writeMultiple(data);
+  }
+
+  /// Upload data to the api backend
+  Future<void> writeToAPI() async {
+    var apiProvider = APIProvider();
+    var data = await getWaitingTime();
+    await apiProvider.upload(data, location);
   }
 }
