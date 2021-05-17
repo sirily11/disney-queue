@@ -21,7 +21,4 @@ jobs:
           apiBackend: ${{secrets.ENDPOINT}}
           username: ${{secrets.USERNAME}}
           password: ${{secrets.PASSWORD}}
-      - name: Upload to database
-        run: pipenv run python upload.py
-        working-directory: './scripts'
 
