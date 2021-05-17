@@ -12,25 +12,15 @@ jobs:
     container:
       image: google/dart:latest
     steps:
-      - uses: actions/checkout@v2
-      - run: apt-get update
-      - name: Install python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-      - uses: dschep/install-pipenv-action@v1
-      - name: Pipenv install
-        run: |
-          pipenv install
-        working-directory: './scripts'
       - name: Install dependencies
         run: pub get
       - name: Run application
         run: dart bin/main.dart
+        env:
+          apiBackend: ${{secrets.ENDPOINT}}
+          username: ${{secrets.USERNAME}}
+          password: ${{secrets.PASSWORD}}
       - name: Upload to database
         run: pipenv run python upload.py
         working-directory: './scripts'
-        env:
-          endpoint: ${{secrets.ENDPOINT}}
-          username: ${{secrets.USERNAME}}
-          password: ${{secrets.PASSWORD}}
+
