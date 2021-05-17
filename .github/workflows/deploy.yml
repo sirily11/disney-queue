@@ -12,6 +12,7 @@ jobs:
     container:
       image: google/dart:latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: pub get
       - name: Run application
