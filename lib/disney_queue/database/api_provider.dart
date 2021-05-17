@@ -16,6 +16,8 @@ class APIProvider {
     final authBackend = apiBackend + 'api/token/';
     final dataBackend = apiBackend + 'api/disney/waittime/';
 
+    print('We are using backend ${dataBackend}');
+
     final authResponse = await dio
         .post(authBackend, data: {'username': username, 'password': password});
 
